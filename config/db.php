@@ -2,8 +2,8 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=nempak52_self',
-    'username' => 'nempak52_self',
-    'password' => 'nempak9963',
+    'dsn' => 'mysql:host=localhost;dbname=myDay',
+    'username' => 'root',
+    'password' => 'root',
     'charset' => 'utf8',
 ];
