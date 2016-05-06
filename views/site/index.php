@@ -10,7 +10,12 @@ $this->title = 'My Yii Application';
 <div class="site-index">
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'date') ?>
+    <?= $form->field($model, 'date')->widget(yii\jui\DatePicker::className(),
+        [
+            'dateFormat' => 'yyyy-MM-dd'
+        ]
+    )
+    ?>
 
     <?= $form->field($model, 'php')->checkbox() ?>
 
@@ -44,7 +49,7 @@ $this->title = 'My Yii Application';
                 <?php echo $item['result']?>
             </td>
             <td>
-                <a href="<? echo urldecode(Url::toRoute(['site/del', 'id' => $item['id']])) ?>" onclick="return confirm('Вы уверены?')" >Удалить</a>
+                <a href="<?php echo Url::toRoute(['site/del', 'id' => $item['id']]) ?>" onclick="return confirm('Вы уверены?')" >Удалить</a>
             </td>
         </tr>
         <?php } ?>
