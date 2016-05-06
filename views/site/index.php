@@ -49,7 +49,7 @@ $this->title = 'My Yii Application';
                 <?php echo $item['result']?>
             </td>
             <td>
-                <a href="<?php echo Url::toRoute(['site/del', 'id' => $item['id']]) ?>" onclick="return confirm('Вы уверены?')" >Удалить</a>
+                <a href="<?php echo Url::toRoute(['site/del', 'id' => $item['id']]) ?>" >Удалить</a>
             </td>
         </tr>
         <?php } ?>
