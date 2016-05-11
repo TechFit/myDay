@@ -8,6 +8,10 @@ use yii\helpers\Url;
 $this->title = 'My Yii Application';
 ?>
 <div class="site-index">
+<!--$allNameEx-->
+    <?php
+    print_r($countName);
+    ?>
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'date')->widget(yii\jui\DatePicker::className(),
@@ -31,7 +35,6 @@ $this->title = 'My Yii Application';
     <table class="table">
         <thead>
         <tr>
-            <th>id</th>
             <th>date</th>
             <th>result</th>
             <th>delete</th>
@@ -39,9 +42,6 @@ $this->title = 'My Yii Application';
         </thead>
         <?php foreach ($a as $item){ ?>
         <tr>
-            <td>
-                <?php echo $item['id']?>
-            </td>
             <td>
                 <?php echo $item['date']?>
             </td>
