@@ -2,36 +2,26 @@
 
 /* @var $this yii\web\View */
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap\ActiveForm;
+use app\models\form;
 use yii\helpers\Url;
 
 $this->title = 'My Yii Application';
 ?>
 <div class="site-index">
-<!--$allNameEx-->
-    <?php
-    print_r($countName);
-    ?>
+
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'date')->widget(yii\jui\DatePicker::className(),
-        [
-            'dateFormat' => 'yyyy-MM-dd'
-        ]
-    )
-    ?>
+    <?= $form->field($model, 'date')->widget(yii\jui\DatePicker::className(),['dateFormat' => 'yyyy-MM-dd'])?>
 
-    <?= $form->field($model, 'php')->checkbox() ?>
-
-    <?= $form->field($model, 'eng')->checkbox() ?>
-
-    <?= $form->field($model, 'sport')->checkbox() ?>
+    <?= $form->field($model, 'check')->checkboxList(form::checkFormData()); ?>
 
     <div class="form-group">
         <?= Html::submitButton('Отправить', ['class' => 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
+
     <table class="table">
         <thead>
         <tr>
@@ -40,7 +30,7 @@ $this->title = 'My Yii Application';
             <th>delete</th>
         </tr>
         </thead>
-        <?php foreach ($a as $item){ ?>
+        <?php foreach ($getDayResult as $item){ ?>
         <tr>
             <td>
                 <?php echo $item['date']?>

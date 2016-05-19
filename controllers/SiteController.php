@@ -33,28 +33,26 @@ class SiteController extends Controller
         $model = new form();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-                       
-            $result = $model->php + $model->eng + $model->sport;
+            $result =count($model->check);
             $date = $model->date;
-            $id = $model->id;
-            
             //Добавляем данные в базу
             dayresult::addRow($date, $result);
         }
-        
-        // Получение данных из базы
-        $a = dayresult::getAll();
-        $allNameEx = exercise::getAllExercises();
-        $countName = exercise::getCountName();
+            $check = $model->check;
+            // Получение данных из базы
+            $getDayResult = dayresult::getAll();
+            $allNameEx = exercise::getAllExercises();
+            $countName = exercise::getCountName();
 
-        return $this->render('index',
-            [
-                'a' => $a,
-                'model' => $model,
-                'allNameEx' => $allNameEx,
-                'countName' => $countName
-            ]);
-    }
+            return $this->render('index',
+                [
+                    'getDayResult' => $getDayResult,
+                    'model' => $model,
+                    'allNameEx' => $allNameEx,
+                    'countName' => $countName,
+                    'check' => $check
+                ]);
+        }
 
     public function actionDel($id)
     {
@@ -62,7 +60,7 @@ class SiteController extends Controller
         return $this->redirect(['index']);
 
     }
-
+    
     public function actionAdd()
     {
         $addform = new addform();

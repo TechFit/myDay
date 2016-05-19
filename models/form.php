@@ -2,24 +2,27 @@
 
 namespace app\models;
 
+use app\models\exercise;
 use yii\base\Model;
+use yii\helpers\ArrayHelper;
 
 class form extends Model
 {
-    //Ex = exercise, data for Add page
-    public $nameEx;
-    //data for form on main page
-    public $date;
-    public $php;
-    public $eng;
-    public $sport;
-    public $id;
 
+    public $date;
+    public $check;
+    public static function checkFormData()
+    {
+      $allNameEx = exercise::getAllExercises();
+
+        return ArrayHelper::map($allNameEx, 'name', 'name');
+        
+    }
 
     public function rules()
     {
         return [
-            [['date', 'php', 'eng', 'sport'], 'required']
+            [['date', 'check'], 'required'],
         ];
     }
 }
