@@ -29,6 +29,10 @@ class exercise extends ActiveRecord{
         return $query;
     }
 
-
+    public static function ExDel($name)
+    {
+        $delete = exercise::findOne($name);
+        $delete->delete();
+    }
 
 }

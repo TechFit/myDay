@@ -38,7 +38,7 @@ class SiteController extends Controller
             //Добавляем данные в базу
             dayresult::addRow($date, $result);
         }
-            $check = $model->check;
+
             // Получение данных из базы
             $getDayResult = dayresult::getAll();
             $allNameEx = exercise::getAllExercises();
@@ -49,8 +49,7 @@ class SiteController extends Controller
                     'getDayResult' => $getDayResult,
                     'model' => $model,
                     'allNameEx' => $allNameEx,
-                    'countName' => $countName,
-                    'check' => $check
+                    'countName' => $countName
                 ]);
         }
 
@@ -73,9 +72,19 @@ class SiteController extends Controller
             exercise::addExercise($nameEx);
         }
 
+        $allNameEx = exercise::getAllExercises();
+
         return $this->render('add',[
-            'addform' => $addform
+            'addform' => $addform,
+            'allNameEx' => $allNameEx
         ]);
+    }
+
+    public function actionExDel($name)
+    {
+        exercise::ExDel(['in', 'name', $name]);
+        return $this->redirect(['add']);
+
     }
 }
 
