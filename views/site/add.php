@@ -4,6 +4,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use app\models\form;
+use yii\grid\GridView;
 use yii\helpers\Url;
 $this->title = 'Add new fit';
 ?>
@@ -36,10 +37,11 @@ $this->title = 'Add new fit';
                 edit
                 </td>
                 <td>
-                    <a href="<?php echo Url::toRoute(['site/ExDel', 'name' => $item['name']]) ?>" >Удалить</a>
+                    <a href="<?php echo Url::toRoute(['site/ex-delete', 'id' => $item['id']]) ?>" >Удалить</a>
                 </td>
             </tr>
         <?php } ?>
     </table>
+
 
 </div>

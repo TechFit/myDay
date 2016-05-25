@@ -29,9 +29,9 @@ class exercise extends ActiveRecord{
         return $query;
     }
 
-    public static function ExDel($name)
+    public static function ExDelete($id)
     {
-        $delete = exercise::findOne($name);
+        $delete = exercise::findOne($id);
         $delete->delete();
     }
 

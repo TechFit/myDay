@@ -80,9 +80,9 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionExDel($name)
+    public function actionExDelete($id)
     {
-        exercise::ExDel(['in', 'name', $name]);
+        exercise::ExDelete(['in', 'id', $id]);
         return $this->redirect(['add']);
 
     }
