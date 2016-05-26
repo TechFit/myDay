@@ -6,7 +6,7 @@ use yii\bootstrap\ActiveForm;
 use app\models\form;
 use yii\helpers\Url;
 
-$this->title = 'My Yii Application';
+$this->title = 'MyDay';
 ?>
 <div class="site-index">
 
