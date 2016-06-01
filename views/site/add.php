@@ -3,8 +3,9 @@
 /* @var $this yii\web\View */
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use app\models\form;
 use yii\helpers\Url;
+use yii\grid\GridView;
+use yii\data\ActiveDataProvider;
 
 $this->title = 'Add new fit';
 ?>
@@ -20,22 +21,21 @@ $this->title = 'Add new fit';
 
 <?php ActiveForm::end(); ?>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Exercise Name</th>
-            <th>delete</th>
-        </tr>
-        </thead>
-        <?php foreach ($allNameEx as $item){ ?>
-            <tr>
-                <td>
-                    <?php echo $item['name']?>
-                </td>
-                <td>
-                    <a href="<?php echo Url::toRoute(['site/ex-delete', 'id' => $item['id']]) ?>" >Удалить</a>
-                </td>
-            </tr>
-        <?php } ?>
-    </table>
+    <?php
+    $dataProvider = new ActiveDataProvider([
+        'query' => \app\models\exercise::find(),
+        'pagination' => [
+            'pageSize' => 20,
+        ],
+    ]);
+
+    echo GridView::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => [
+            ['class' => 'yii\grid\ActionColumn',
+            'template' => '{update} {delete}',
+            ],
+        ]
+    ]);
+    ?>
 </div>
