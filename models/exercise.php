@@ -14,6 +14,14 @@ class exercise extends ActiveRecord{
         $query->name = $nameEx;
         $query->save();
     }
+
+    public static function updateExercise($updateEx, $idEx)
+    {
+        $query = \Yii::$app->
+        db->createCommand("UPDATE exercise SET name = '$updateEx' WHERE id = '$idEx'")->execute();
+
+        return $query;
+    }
     
     public static function getAllExercises()
     {

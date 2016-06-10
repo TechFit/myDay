@@ -4,8 +4,6 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
-use yii\grid\GridView;
-use yii\data\ActiveDataProvider;
 
 $this->title = 'Add new fit';
 ?>
@@ -21,21 +19,25 @@ $this->title = 'Add new fit';
 
 <?php ActiveForm::end(); ?>
 
-    <?php
-    $dataProvider = new ActiveDataProvider([
-        'query' => \app\models\exercise::find(),
-        'pagination' => [
-            'pageSize' => 20,
-        ],
-    ]);
+    <?php foreach ($allNameEx as $item){ ?>
 
-    echo GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\ActionColumn',
-            'template' => '{update} {delete}',
-            ],
-        ]
-    ]);
-    ?>
+        <?php $form = ActiveForm::begin(); ?>
+
+        <?= $form->field($updateForm, 'updateEx')->textInput(array('value'=>$item['name']))->label('');?>
+
+        <?= $form->field($updateForm, 'idEx',['options' => ['class' => 'hidden']])->hiddenInput(array('value'=>$item['id']))->label('');?>
+
+        <div class="form-group">
+
+        <a href="<?php echo Url::toRoute(['site/ex-delete', 'id' => $item['id']]) ?>" >Удалить</a>
+
+        </div>
+
+        <div class="form-group">
+            <?= Html::submitButton('Отправить', ['class' => 'btn btn-primary']) ?>
+        </div>
+        <?php ActiveForm::end(); ?>
+
+    <?php } ?>
+
 </div>

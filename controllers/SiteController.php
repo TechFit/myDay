@@ -2,19 +2,14 @@
 
 namespace app\controllers;
 
-
-
 use app\models\addform;
+use app\models\updateForm;
 use Yii;
-use yii\filters\AccessControl;
 use yii\web\Controller;
-use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
+use yii\helpers\Html;
 use app\models\form;
 use app\models\dayresult;
 use app\models\exercise;
-use yii\helpers\Url;
 
 class SiteController extends Controller
 {
@@ -33,13 +28,13 @@ class SiteController extends Controller
         $model = new form();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
             $result =count($model->check);
             $date = $model->date;
-            //Добавляем данные в базу
+
             dayresult::addRow($date, $result);
         }
 
-            // Получение данных из базы
             $getDayResult = dayresult::getAll();
             $allNameEx = exercise::getAllExercises();
             $countName = exercise::getCountName();
@@ -68,15 +63,25 @@ class SiteController extends Controller
 
             $nameEx = $addform->nameEx;
 
-            //Добавляем данные в базу
             exercise::addExercise($nameEx);
+        }
+
+        $updateForm = new updateForm();
+
+        if ($updateForm->load(Yii::$app->request->post()))
+        {
+            $updateEx = $updateForm->updateEx;
+            $idEx = $updateForm->idEx;
+
+            exercise::updateExercise($updateEx, $idEx);
         }
 
         $allNameEx = exercise::getAllExercises();
 
         return $this->render('add',[
             'addform' => $addform,
-            'allNameEx' => $allNameEx
+            'allNameEx' => $allNameEx,
+            'updateForm' => $updateForm,
         ]);
     }
 

@@ -4,14 +4,15 @@ namespace app\models;
 
 use yii\base\Model;
 
-class addform extends Model
+class updateForm extends Model
 {
-    public $nameEx;
+    public $updateEx;
+    public $idEx;
 
     public function rules()
     {
         return [
-            [['nameEx'], 'required']
+            [['updateEx', 'idEx'], 'required']
         ];
     }
 }
