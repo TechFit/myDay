@@ -17,7 +17,7 @@ $this->title = 'MyDay';
     <?= $form->field($model, 'check')->checkboxList(form::checkFormData()); ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Отправить', ['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton('', ['class' => 'btn btn-success glyphicon glyphicon-plus']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
@@ -39,7 +39,7 @@ $this->title = 'MyDay';
                 <?php echo $item['result']?>
             </td>
             <td>
-                <a href="<?php echo Url::toRoute(['site/del', 'id' => $item['id']]) ?>" >Удалить</a>
+                <a href="<?php echo Url::toRoute(['site/del', 'id' => $item['id']]) ?>" class="btn btn-danger" ><i class="glyphicon glyphicon-trash"></i></a>
             </td>
         </tr>
         <?php } ?>

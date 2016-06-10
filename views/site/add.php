@@ -14,7 +14,7 @@ $this->title = 'Add new fit';
     <?= $form->field($addform, 'nameEx')->textInput()->label('Exercise name')?>
 
     <div class="form-group">
-        <?= Html::submitButton('Отправить', ['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton('', ['class' => 'btn btn-success glyphicon glyphicon-plus']) ?>
     </div>
 
 <?php ActiveForm::end(); ?>
@@ -29,12 +29,12 @@ $this->title = 'Add new fit';
 
         <div class="form-group">
 
-        <a href="<?php echo Url::toRoute(['site/ex-delete', 'id' => $item['id']]) ?>" >Удалить</a>
+        <a href="<?php echo Url::toRoute(['site/ex-delete', 'id' => $item['id']]) ?>" class="btn btn-danger glyphicon glyphicon-trash"></a>
 
         </div>
 
         <div class="form-group">
-            <?= Html::submitButton('Отправить', ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton('', ['class' => 'btn btn-primary glyphicon glyphicon-refresh']) ?>
         </div>
         <?php ActiveForm::end(); ?>
 
