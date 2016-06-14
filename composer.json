@@ -16,6 +16,8 @@
             "npm-asset-library": "vendor/npm",
             "bower-asset-library": "vendor/bower"
         }
+    },
+    "require-dev": {
+        "yiisoft/yii2-gii": "^2.0"
     }
-
 }

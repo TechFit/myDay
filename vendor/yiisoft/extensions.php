@@ -40,4 +40,13 @@ return array (
       '@unclead/widgets' => $vendorDir . '/unclead/yii2-multiple-input/src',
     ),
   ),
+  'yiisoft/yii2-gii' => 
+  array (
+    'name' => 'yiisoft/yii2-gii',
+    'version' => '2.0.5.0',
+    'alias' => 
+    array (
+      '@yii/gii' => $vendorDir . '/yiisoft/yii2-gii',
+    ),
+  ),
 );
