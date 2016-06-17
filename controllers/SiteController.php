@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\addform;
 use app\models\LoginForm;
+use app\models\Signup;
 use app\models\updateForm;
 use Yii;
 use yii\filters\AccessControl;
@@ -145,6 +146,24 @@ class SiteController extends Controller
         exercise::ExDelete(['in', 'id', $id]);
         return $this->redirect(['add']);
 
+    }
+
+    public function actionSignup()
+    {
+        $model = new Signup();
+
+        if (isset($_POST['Signup']))
+        {
+            $model->attributes = Yii::$app->request->post('Signup');
+
+            if ($model->validate() && $model->signup())
+            {
+                return $this->goHome();
+            }
+        }
+
+        return $this->render('signup',
+            ['model'=>$model]);
     }
 }
 
