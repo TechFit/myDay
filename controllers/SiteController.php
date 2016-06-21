@@ -2,82 +2,20 @@
 
 namespace app\controllers;
 
+use Yii;
+use yii\web\Controller;
 use app\models\addform;
-use app\models\LoginForm;
 use app\models\Signup;
 use app\models\updateForm;
-use Yii;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
-use yii\web\Controller;
-use yii\helpers\Html;
+use app\models\Login;
 use app\models\form;
 use app\models\dayresult;
 use app\models\exercise;
+use yii\helpers\Html;
 
 class SiteController extends Controller
 {
 
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['login', 'signup'],
-                        'roles' => ['?'],
-                    ],
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-        ];
-    }
-
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-        ];
-    }
-
-
-    public function actionLogin()
-    {
-        if (!\Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
-        $model = new LoginForm();
-        
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        }
-        return $this->render('login', [
-            'model' => $model,
-        ]);
-    }
-
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-
-        return $this->goHome();
-    }
 
     public function actionIndex()
     {
@@ -164,6 +102,42 @@ class SiteController extends Controller
 
         return $this->render('signup',
             ['model'=>$model]);
+    }
+
+    public function actionLogin()
+    {
+        $login_model = new Login();
+
+        if (!Yii::$app->user->isGuest)
+        {
+            return $this->goHome();
+        }
+
+        if( Yii::$app->request->post('Login'))
+        {
+            $login_model->attributes = Yii::$app->request->post('Login');
+
+            if ($login_model->validate())
+            {
+                Yii::$app->user->login($login_model->getUser());
+                return $this->goHome();
+            }
+        }
+
+        return $this->render('login',
+            [
+                'login_model' => $login_model
+            ]);
+    }
+
+    public function actionLogout()
+    {
+        if (!Yii::$app->user->isGuest)
+        {
+            Yii::$app->user->logout();
+
+            return $this->redirect(['login']);
+        }
     }
 }
 

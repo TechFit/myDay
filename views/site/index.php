@@ -25,9 +25,9 @@ $this->title = 'MyDay';
         <table class="table">
             <thead>
             <tr>
-                <th>date</th>
-                <th>result</th>
-                <th>delete</th>
+                <th>Дата</th>
+                <th>Результат</th>
+                <th>Удалить</th>
             </tr>
             </thead>
             <?php foreach ($getDayResult as $item) { ?>
