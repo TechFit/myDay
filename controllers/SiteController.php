@@ -2,7 +2,9 @@
 
 namespace app\controllers;
 
+use app\models\User;
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use app\models\addform;
 use app\models\Signup;
@@ -13,25 +15,49 @@ use app\models\dayresult;
 use app\models\exercise;
 use yii\helpers\Html;
 
+
 class SiteController extends Controller
 {
-
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['login', 'logout', 'signup', 'index', 'add'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['login', 'signup'],
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['logout', 'index', 'add'],
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
 
     public function actionIndex()
     {
+
         $model = new form();
+
+        $userId = Yii::$app->user->id;
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
             $result =count($model->check);
             $date = $model->date;
 
-            dayresult::addRow($date, $result);
+            dayresult::addRow($date, $result, $userId);
         }
 
-            $getDayResult = dayresult::getAll();
-            $allNameEx = exercise::getAllExercises();
-            $countName = exercise::getCountName();
+            $getDayResult = dayresult::getAll($userId);
+            $allNameEx = exercise::getAllExercises($userId);
+            $countName = exercise::getCountName($userId);
 
             return $this->render('index',
                 [
@@ -56,8 +82,9 @@ class SiteController extends Controller
         if ($addform->load(Yii::$app->request->post())) {
 
             $nameEx = $addform->nameEx;
+            $userId = Yii::$app->user->id;
 
-            exercise::addExercise($nameEx);
+            exercise::addExercise($nameEx, $userId);
         }
 
         $updateForm = new updateForm();
@@ -66,11 +93,14 @@ class SiteController extends Controller
         {
             $updateEx = $updateForm->updateEx;
             $idEx = $updateForm->idEx;
+            $userId = Yii::$app->user->id;
 
-            exercise::updateExercise($updateEx, $idEx);
+            exercise::updateExercise($updateEx, $idEx,$userId);
         }
 
-        $allNameEx = exercise::getAllExercises();
+        $userId = Yii::$app->user->id;
+
+        $allNameEx = exercise::getAllExercises($userId);
 
         return $this->render('add',[
             'addform' => $addform,

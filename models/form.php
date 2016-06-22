@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Yii;
 use app\models\exercise;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
@@ -13,7 +14,9 @@ class form extends Model
     public $check;
     public static function checkFormData()
     {
-      $allNameEx = exercise::getAllExercises();
+      $userId = Yii::$app->user->id;
+
+      $allNameEx = exercise::getAllExercises($userId);
 
         return ArrayHelper::map($allNameEx, 'name', 'name');
         

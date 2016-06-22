@@ -94,3 +94,8 @@ a.desc:after {
     width: 30px;
     display: inline-block;
 }
+
+.navbar-nav li > form > button{
+    padding-top: 14px;
+    padding-bottom: 15px;
+}
