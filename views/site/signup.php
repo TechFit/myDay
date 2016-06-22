@@ -7,12 +7,14 @@
     $form = ActiveForm::begin(['class' => 'form-horizontal']);
 ?>
 
-<?= $form->field($model, 'email')->textInput(['autofocus'=>true]); ?>
+<?= $form->field($model, 'email')->textInput(['autofocus'=>true])->label("Email"); ?>
 
-<?= $form->field($model, 'password')->passwordInput(); ?>
+<?= $form->field($model, 'password')->passwordInput()->label("Пароль"); ?>
+
+<?= $form->field($model, 'passwordRepeat')->passwordInput()->label("Повторите пароль"); ?>
 
 <div>
-    <button type="submit" class="btn btn-primary">Register</button>
+    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
 </div>
 
 <?php

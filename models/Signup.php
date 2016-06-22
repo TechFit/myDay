@@ -9,14 +9,16 @@ class Signup extends Model
 {
     public $email;
     public $password;
+    public $passwordRepeat;
 
     public function rules()
     {
         return[
-           [['email', 'password'], 'required'],
+           [['email', 'password', 'passwordRepeat'], 'required'],
             ['email', 'email'],
             ['email', 'unique', 'targetClass' => 'app\models\User'],
-            ['password', 'string', 'min' => 2, 'max' => 10]
+            ['password', 'string', 'min' => 2, 'max' => 10],
+            ['passwordRepeat', 'compare', 'compareAttribute'=>'password', 'skipOnEmpty' => false, 'message'=>"Пароли не совпадают"],
         ];
     }
 
