@@ -30,16 +30,6 @@ return array (
       '@yii/jui' => $vendorDir . '/yiisoft/yii2-jui',
     ),
   ),
-  'unclead/yii2-multiple-input' => 
-  array (
-    'name' => 'unclead/yii2-multiple-input',
-    'version' => '1.2.17.0',
-    'alias' => 
-    array (
-      '@unclead/widgets/examples' => $vendorDir . '/unclead/yii2-multiple-input/examples',
-      '@unclead/widgets' => $vendorDir . '/unclead/yii2-multiple-input/src',
-    ),
-  ),
   'yiisoft/yii2-gii' => 
   array (
     'name' => 'yiisoft/yii2-gii',
@@ -47,6 +37,16 @@ return array (
     'alias' => 
     array (
       '@yii/gii' => $vendorDir . '/yiisoft/yii2-gii',
+    ),
+  ),
+  'unclead/yii2-multiple-input' => 
+  array (
+    'name' => 'unclead/yii2-multiple-input',
+    'version' => '1.2.18.0',
+    'alias' => 
+    array (
+      '@unclead/widgets/examples' => $vendorDir . '/unclead/yii2-multiple-input/examples',
+      '@unclead/widgets' => $vendorDir . '/unclead/yii2-multiple-input/src',
     ),
   ),
 );

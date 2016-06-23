@@ -40,82 +40,6 @@ class SiteController extends Controller
         ];
     }
 
-    public function actionIndex()
-    {
-
-        $model = new form();
-
-        $userId = Yii::$app->user->id;
-
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-
-            $result =count($model->check);
-            $date = $model->date;
-
-            dayresult::addRow($date, $result, $userId);
-        }
-
-            $getDayResult = dayresult::getAll($userId);
-            $allNameEx = exercise::getAllExercises($userId);
-            $countName = exercise::getCountName($userId);
-
-            return $this->render('index',
-                [
-                    'getDayResult' => $getDayResult,
-                    'model' => $model,
-                    'allNameEx' => $allNameEx,
-                    'countName' => $countName
-                ]);
-        }
-
-    public function actionDel($id)
-    {
-        dayresult::delAll(['in', 'id', $id]);
-        return $this->redirect(['index']);
-
-    }
-    
-    public function actionAdd()
-    {
-        $addform = new addform();
-
-        if ($addform->load(Yii::$app->request->post())) {
-
-            $nameEx = $addform->nameEx;
-            $userId = Yii::$app->user->id;
-
-            exercise::addExercise($nameEx, $userId);
-        }
-
-        $updateForm = new updateForm();
-
-        if ($updateForm->load(Yii::$app->request->post()))
-        {
-            $updateEx = $updateForm->updateEx;
-            $idEx = $updateForm->idEx;
-            $userId = Yii::$app->user->id;
-
-            exercise::updateExercise($updateEx, $idEx,$userId);
-        }
-
-        $userId = Yii::$app->user->id;
-
-        $allNameEx = exercise::getAllExercises($userId);
-
-        return $this->render('add',[
-            'addform' => $addform,
-            'allNameEx' => $allNameEx,
-            'updateForm' => $updateForm,
-        ]);
-    }
-
-    public function actionExDelete($id)
-    {
-        exercise::ExDelete(['in', 'id', $id]);
-        return $this->redirect(['add']);
-
-    }
-
     public function actionSignup()
     {
         $model = new Signup();
@@ -168,6 +92,81 @@ class SiteController extends Controller
 
             return $this->redirect(['login']);
         }
+    }
+
+    public function actionIndex()
+    {
+
+        $model = new form();
+
+        $userId = Yii::$app->user->id;
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
+            $result =count($model->check);
+            $date = $model->date;
+
+            dayresult::addRow($date, $result, $userId);
+        }
+            $getDayResult = dayresult::getAll($userId);
+            $allNameEx = exercise::getAllExercises($userId);
+            $countName = exercise::getCountName($userId);
+        
+            return $this->render('index',
+                [
+                    'getDayResult' => $getDayResult,
+                    'model' => $model,
+                    'allNameEx' => $allNameEx,
+                    'countName' => $countName,
+                ]);
+        }
+
+    public function actionDel($id)
+    {
+        dayresult::delAll(['in', 'id', $id]);
+        return $this->redirect(['index']);
+
+    }
+    
+    public function actionAdd()
+    {
+        $addform = new addform();
+
+        if ($addform->load(Yii::$app->request->post())) {
+
+            $nameEx = $addform->nameEx;
+            $userId = Yii::$app->user->id;
+
+            exercise::addExercise($nameEx, $userId);
+        }
+
+        $updateForm = new updateForm();
+
+        if ($updateForm->load(Yii::$app->request->post()))
+        {
+            $updateEx = $updateForm->updateEx;
+            $idEx = $updateForm->idEx;
+            $userId = Yii::$app->user->id;
+
+            exercise::updateExercise($updateEx, $idEx,$userId);
+        }
+
+        $userId = Yii::$app->user->id;
+
+        $allNameEx = exercise::getAllExercises($userId);
+
+        return $this->render('add',[
+            'addform' => $addform,
+            'allNameEx' => $allNameEx,
+            'updateForm' => $updateForm,
+        ]);
+    }
+
+    public function actionExDelete($id)
+    {
+        exercise::ExDelete(['in', 'id', $id]);
+        return $this->redirect(['add']);
+
     }
 }
 
