@@ -111,10 +111,23 @@ class SiteController extends Controller
             $getDayResult = dayresult::getAll($userId);
             $allNameEx = exercise::getAllExercises($userId);
             $countName = exercise::getCountName($userId);
-        
+
+            // for highcharts
+
+            $getDayResultDate[] = 0;
+            $getDayResultCount[] = 0;
+
+            foreach ($getDayResult as $item)
+            {
+                $getDayResultDate[] = $item['date'];
+                $getDayResultCount[] = (int)($item['result']  * 100 / count($allNameEx));
+            }
+
             return $this->render('index',
                 [
                     'getDayResult' => $getDayResult,
+                    'getDayResultDate' => $getDayResultDate,
+                    'getDayResultCount' => $getDayResultCount,
                     'model' => $model,
                     'allNameEx' => $allNameEx,
                     'countName' => $countName,

@@ -49,4 +49,13 @@ return array (
       '@unclead/widgets' => $vendorDir . '/unclead/yii2-multiple-input/src',
     ),
   ),
+  'miloschuman/yii2-highcharts-widget' => 
+  array (
+    'name' => 'miloschuman/yii2-highcharts-widget',
+    'version' => '4.2.5.0',
+    'alias' => 
+    array (
+      '@miloschuman/highcharts' => $vendorDir . '/miloschuman/yii2-highcharts-widget/src',
+    ),
+  ),
 );

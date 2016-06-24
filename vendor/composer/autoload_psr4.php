@@ -14,5 +14,6 @@ return array(
     'yii\\' => array($vendorDir . '/yiisoft/yii2'),
     'unclead\\widgets\\examples\\' => array($vendorDir . '/unclead/yii2-multiple-input/examples'),
     'unclead\\widgets\\' => array($vendorDir . '/unclead/yii2-multiple-input/src'),
+    'miloschuman\\highcharts\\' => array($vendorDir . '/miloschuman/yii2-highcharts-widget/src'),
     'cebe\\markdown\\' => array($vendorDir . '/cebe/markdown'),
 );

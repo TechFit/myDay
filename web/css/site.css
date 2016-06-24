@@ -99,3 +99,16 @@ a.desc:after {
     padding-top: 14px;
     padding-bottom: 15px;
 }
+
+#form-check .checkbox{
+    display: inline-block;
+    margin-right:10px;
+}
+
+.field-updateform-updateex label{
+    display: none;
+}
+
+.exercise-add{
+    margin-top: 24px;
+}
