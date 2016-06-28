@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\User;
+use simplehtmldom_1_5\simple_html_dom;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -14,6 +15,7 @@ use app\models\form;
 use app\models\dayresult;
 use app\models\exercise;
 use yii\helpers\Html;
+use Sunra\PhpSimple\HtmlDomParser;
 
 
 class SiteController extends Controller
@@ -122,6 +124,14 @@ class SiteController extends Controller
                 $getDayResultDate[] = $item['date'];
                 $getDayResultCount[] = (int)($item['result']  * 100 / count($allNameEx));
             }
+            // parse At.pre
+            $parsePressure = HtmlDomParser::file_get_html('http://meteo.gov.ua/ua/');
+            foreach ($pressureGetData = $parsePressure->find('span[id=curWeatherPr]') as $item)
+            {
+                $pressureFind = preg_match_all('!\d+!',$item,$pressureArray);
+            }
+
+            $pressure = (int)$pressureArray[0][0];
 
             return $this->render('index',
                 [
@@ -131,6 +141,7 @@ class SiteController extends Controller
                     'model' => $model,
                     'allNameEx' => $allNameEx,
                     'countName' => $countName,
+                    'pressure' => $pressure
                 ]);
         }
 

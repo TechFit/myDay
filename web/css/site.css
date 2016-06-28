@@ -112,3 +112,7 @@ a.desc:after {
 .exercise-add{
     margin-top: 24px;
 }
+
+.pressure{
+    float: right;
+}

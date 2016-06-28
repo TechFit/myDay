@@ -8,12 +8,15 @@ use app\models\form;
 use yii\helpers\Url;
 use miloschuman\highcharts\Highcharts;
 
+
 $this->title = 'MyDay';
 ?>
-
     <div class="site-index">
-
         <?php $form = ActiveForm::begin(); ?>
+
+        <div class="pressure">
+            <?php echo "Атм.д = " . $pressure; ?>
+        </div>
 
         <?= $form->field($model, 'date')->label('Дата')->widget(yii\jui\DatePicker::className(), ['dateFormat' => 'yyyy-MM-dd']) ?>
 
@@ -77,5 +80,5 @@ $this->title = 'MyDay';
                 ]
             ]
         ]); ?>
-        
+
     </div>

@@ -11,7 +11,8 @@
         "yiisoft/yii2-debug": "^2.0",
         "unclead/yii2-multiple-input": "~1.0",
         "kwizer15/highcharts": "^4.1",
-        "miloschuman/yii2-highcharts-widget": "^4.2"
+        "miloschuman/yii2-highcharts-widget": "^4.2",
+        "sunra/php-simple-html-dom-parser": "1.5.1"
     },
     "extra": {
         "asset-installer-paths": {
