@@ -27,7 +27,7 @@ $this->title = 'Добавить испытание';
             'options' =>['class' => 'col-md-12']
         ]); ?>
             <?= $form->field($updateForm, 'updateEx', ['options' => ['class' => 'col-md-3']])->textInput(array('value'=>$item['name']))->label('');?>
-
+        
             <?= $form->field($updateForm, 'idEx',['options' => ['class' => 'hidden']])->hiddenInput(array('value'=>$item['id']))->label('');?>
 
             <div class="form-group exercise-submit-buttons">

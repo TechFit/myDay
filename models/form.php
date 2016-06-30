@@ -3,7 +3,6 @@
 namespace app\models;
 
 use Yii;
-use app\models\exercise;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 

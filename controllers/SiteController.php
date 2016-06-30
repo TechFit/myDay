@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\brain;
+use app\models\pressureForm;
 use app\models\User;
 use simplehtmldom_1_5\simple_html_dom;
 use Yii;
@@ -15,8 +17,6 @@ use app\models\form;
 use app\models\dayresult;
 use app\models\exercise;
 use yii\helpers\Html;
-use Sunra\PhpSimple\HtmlDomParser;
-
 
 class SiteController extends Controller
 {
@@ -98,7 +98,6 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-
         $model = new form();
 
         $userId = Yii::$app->user->id;
@@ -116,23 +115,23 @@ class SiteController extends Controller
 
             // for highcharts
 
-            $getDayResultDate[] = 0;
-            $getDayResultCount[] = 0;
-
-            foreach ($getDayResult as $item)
+            if  (!empty($getDayResult))
             {
-                $getDayResultDate[] = $item['date'];
-                $getDayResultCount[] = (int)($item['result']  * 100 / count($allNameEx));
-            }
-            // parse At.pre
-            $parsePressure = HtmlDomParser::file_get_html('http://meteo.gov.ua/ua/');
-            foreach ($pressureGetData = $parsePressure->find('span[id=curWeatherPr]') as $item)
-            {
-                $pressureFind = preg_match_all('!\d+!',$item,$pressureArray);
+                foreach ($getDayResult as $item)
+                {
+                    $getDayResultDate[] = $item['date'];
+                    $getDayResultCount[] = (int)($item['result']  * 100 / count($allNameEx));
+                }
             }
 
-            $pressure = (int)$pressureArray[0][0];
+            else{
 
+                $getDayResultDate[] = date('Y-m-d');
+                $getDayResultCount[] = 0;
+            }
+
+            $pressure = pressureForm::getAtPressure();
+        
             return $this->render('index',
                 [
                     'getDayResult' => $getDayResult,
@@ -141,7 +140,7 @@ class SiteController extends Controller
                     'model' => $model,
                     'allNameEx' => $allNameEx,
                     'countName' => $countName,
-                    'pressure' => $pressure
+                    'pressure' => $pressure,
                 ]);
         }
 
@@ -191,6 +190,35 @@ class SiteController extends Controller
         exercise::ExDelete(['in', 'id', $id]);
         return $this->redirect(['add']);
 
+    }
+
+    public function actionBrain()
+    {
+        $pressure = pressureForm::getAtPressure();
+
+        $userId = Yii::$app->user->id;
+
+        $pressureForm = new pressureForm();
+
+        if ($pressureForm->load(Yii::$app->request->post()))
+        {
+            brain::addPressure($pressureForm->date, $pressureForm->pressure, (int)$pressureForm->brain, $userId);
+        }
+
+        $showPressure = brain::showPressure($userId);
+        foreach ($showPressure as $item) {
+            $showPressureDate[] = $item['date'];
+            $showPressureValue[] = (int)$item['pressure'];
+            $showPressureResult[] = (int)$item['brain'];
+        }
+
+        return $this->render('brain',[
+            'pressureForm' => $pressureForm,
+            'pressure' => $pressure,
+            'showPressureDate' => $showPressureDate,
+            'showPressureValue' => $showPressureValue,
+            'showPressureResult' => $showPressureResult,
+        ]);
     }
 }
 
