@@ -23,8 +23,16 @@ $(document).ready(function(){
         {
             $(this).addClass("progress-bar-success");
         }
-
-
     });
 
+    $(".brain-result").each(function() {
+        var takeNumber = $(this).attr("title");
+        if ( takeNumber == '1'){
+
+            $(this).addClass('glyphicon-thumbs-down').css("color", "red");
+        }
+        else {
+            $(this).addClass('glyphicon-thumbs-up').css("color", "green");;
+        }
+    });
 });

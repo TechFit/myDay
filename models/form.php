@@ -24,7 +24,8 @@ class form extends Model
     public function rules()
     {
         return [
-            [['date', 'check'], 'required'],
+            [['date'], 'required'],
+            ['check', 'default', 'value' => 0]
         ];
     }
 }

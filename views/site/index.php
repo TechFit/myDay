@@ -7,6 +7,7 @@ use yii\bootstrap\ActiveForm;
 use app\models\form;
 use yii\helpers\Url;
 use miloschuman\highcharts\Highcharts;
+use yii\widgets\Pjax;
 
 
 $this->title = 'MyDay';
@@ -24,7 +25,8 @@ $this->title = 'MyDay';
 
         <?php ActiveForm::end(); ?>
 
-        <table class="table" id="result-table">
+        <?php Pjax::begin(); ?>
+        <table class="table table-hover" id="result-table">
             <thead>
             <tr>
                 <th>Дата</th>
@@ -46,11 +48,13 @@ $this->title = 'MyDay';
                     </td>
                     <td>
                         <a href="<?php echo Url::toRoute(['site/del', 'id' => $item['id']]) ?>"
-                           class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
+                           class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>
+                        </a>
                     </td>
                 </tr>
             <?php } ?>
         </table>
+        <?php Pjax::end(); ?>
 
         <?= Highcharts::widget([
             'options' => [
@@ -76,5 +80,4 @@ $this->title = 'MyDay';
                 ]
             ]
         ]); ?>
-
     </div>

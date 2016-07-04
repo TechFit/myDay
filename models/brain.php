@@ -21,6 +21,11 @@ class brain extends ActiveRecord
     {
         return self::find()->asArray()->where("user_id = '$userId'")->all();
     }
-    
+
+    public static function pressureDelete($id)
+    {
+        $delete = brain::findOne($id);
+        $delete->delete();
+    }
 }
 

@@ -5,6 +5,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
+use yii\data\Pagination;
 use miloschuman\highcharts\Highcharts;
 
 $this->title = 'Brain';
@@ -15,7 +16,7 @@ $this->title = 'Brain';
     </div>
 
 <?php $form= ActiveForm::begin([
-    'options' =>['class' => 'col-md-3']
+    'options' =>['class' => 'col-md-2']
 ]); ?>
 
         <?= $form->field($pressureForm, 'date')->label('Дата')->widget(yii\jui\DatePicker::className(), ['dateFormat' => 'yyyy-MM-dd']) ?>
@@ -31,6 +32,34 @@ $this->title = 'Brain';
 
 <?php ActiveForm::end(); ?>
 
+<table class="table table-hover" id="brain-table">
+    <thead>
+    <tr>
+        <th>Дата</th>
+        <th>Ат.давление</th>
+        <th>Результат</th>
+        <th>Удалить</th>
+    </tr>
+    </thead>
+    <?php foreach ($showPressure as $item) { ?>
+        <tr>
+            <td>
+                <?php echo $item['date'] ?>
+            </td>
+            <td>
+                <?php echo $item['pressure'] ?>
+            </td>
+            <td>
+                <i class="glyphicon brain-result" title="<?php echo (int)$item['brain'] ?>"></i>
+            </td>
+            <td>
+                <a href="<?php echo Url::toRoute(['site/pressure-delete', 'userId' => $item['user_id'], 'id' => $item['id']]) ?>"
+                   class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>
+                </a>
+            </td>
+        </tr>
+    <?php } ?>
+</table>
 
 <?= Highcharts::widget([
     'options' => [

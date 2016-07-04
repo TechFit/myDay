@@ -148,7 +148,6 @@ class SiteController extends Controller
     {
         dayresult::delAll(['in', 'id', $id]);
         return $this->redirect(['index']);
-
     }
     
     public function actionAdd()
@@ -214,11 +213,18 @@ class SiteController extends Controller
 
         return $this->render('brain',[
             'pressureForm' => $pressureForm,
+            'showPressure' => $showPressure,
             'pressure' => $pressure,
             'showPressureDate' => $showPressureDate,
             'showPressureValue' => $showPressureValue,
             'showPressureResult' => $showPressureResult,
         ]);
+    }
+
+    public function actionPressureDelete($userId, $id)
+    {
+        brain::pressureDelete(['in','userId','id',$userId,$id]);
+        return $this->redirect(['brain']);
     }
 }
 
