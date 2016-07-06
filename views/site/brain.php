@@ -7,6 +7,7 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
 use yii\data\Pagination;
 use miloschuman\highcharts\Highcharts;
+use yii\widgets\LinkPager;
 
 $this->title = 'Brain';
 ?>
@@ -35,13 +36,13 @@ $this->title = 'Brain';
 <table class="table table-hover" id="brain-table">
     <thead>
     <tr>
-        <th>Дата</th>
+        <th>Дата <?= $sort->link('date') ;?></th>
         <th>Ат.давление</th>
         <th>Результат</th>
         <th>Удалить</th>
     </tr>
     </thead>
-    <?php foreach ($showPressure as $item) { ?>
+    <?php foreach ($models as $item) { ?>
         <tr>
             <td>
                 <?php echo $item['date'] ?>
@@ -60,6 +61,12 @@ $this->title = 'Brain';
         </tr>
     <?php } ?>
 </table>
+
+<?php
+    echo LinkPager::widget([
+        'pagination' => $pages,
+    ]);
+    ?>
 
 <?= Highcharts::widget([
     'options' => [

@@ -7,7 +7,7 @@ use yii\bootstrap\ActiveForm;
 use app\models\form;
 use yii\helpers\Url;
 use miloschuman\highcharts\Highcharts;
-use yii\widgets\Pjax;
+use yii\widgets\LinkPager;
 
 
 $this->title = 'MyDay';
@@ -25,16 +25,15 @@ $this->title = 'MyDay';
 
         <?php ActiveForm::end(); ?>
 
-        <?php Pjax::begin(); ?>
         <table class="table table-hover" id="result-table">
             <thead>
             <tr>
-                <th>Дата</th>
+                <th>Дата <?= $sort->link('date') ;?></th>
                 <th>Результат</th>
                 <th>Удалить</th>
             </tr>
             </thead>
-            <?php foreach ($getDayResult as $item) { ?>
+            <?php foreach ($models as $item) { ?>
                 <tr>
                     <td>
                         <?php echo $item['date'] ?>
@@ -54,7 +53,12 @@ $this->title = 'MyDay';
                 </tr>
             <?php } ?>
         </table>
-        <?php Pjax::end(); ?>
+
+        <?php
+        echo LinkPager::widget([
+            'pagination' => $pages,
+        ]);
+        ?>
 
         <?= Highcharts::widget([
             'options' => [

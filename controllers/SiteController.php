@@ -7,6 +7,8 @@ use app\models\pressureForm;
 use app\models\User;
 use simplehtmldom_1_5\simple_html_dom;
 use Yii;
+use yii\data\Pagination;
+use yii\data\Sort;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use app\models\addform;
@@ -104,7 +106,8 @@ class SiteController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
-            $result =count($model->check);
+            $model->check == 0 ? $result = 0 : $result = count($model->check);
+
             $date = $model->date;
 
             dayresult::addRow($date, $result, $userId);
@@ -117,6 +120,16 @@ class SiteController extends Controller
 
             if  (!empty($getDayResult))
             {
+                $sort = new Sort([
+                    'attributes' => [
+                        'date'
+                    ],
+                ]);
+                $query = dayresult::getAllPagination($userId);
+                $pages = new Pagination(['totalCount' => $query->count(),  'pageSize' => 4]);
+                $models = $query->offset($pages->offset)
+                    ->limit($pages->limit)->orderBy($sort->orders)
+                    ->all();
                 foreach ($getDayResult as $item)
                 {
                     $getDayResultDate[] = $item['date'];
@@ -124,14 +137,13 @@ class SiteController extends Controller
                 }
             }
 
-            else{
+            else
+            {
 
                 $getDayResultDate[] = date('Y-m-d');
                 $getDayResultCount[] = 0;
             }
 
-            $pressure = pressureForm::getAtPressure();
-        
             return $this->render('index',
                 [
                     'getDayResult' => $getDayResult,
@@ -139,8 +151,10 @@ class SiteController extends Controller
                     'getDayResultCount' => $getDayResultCount,
                     'model' => $model,
                     'allNameEx' => $allNameEx,
+                    'pages' => $pages,
+                    'models' => $models,
+                    'sort' => $sort,
                     'countName' => $countName,
-                    'pressure' => $pressure,
                 ]);
         }
 
@@ -211,6 +225,17 @@ class SiteController extends Controller
             $showPressureResult[] = (int)$item['brain'];
         }
 
+        $sort = new Sort([
+            'attributes' => [
+                'date',
+            ],
+        ]);
+        $query = brain::showPressurePagination($userId);
+        $pages = new Pagination(['totalCount' => $query->count(),  'pageSize' => 5]);
+        $models = $query->offset($pages->offset)
+            ->limit($pages->limit)->orderBy($sort->orders)
+            ->all();
+
         return $this->render('brain',[
             'pressureForm' => $pressureForm,
             'showPressure' => $showPressure,
@@ -218,6 +243,9 @@ class SiteController extends Controller
             'showPressureDate' => $showPressureDate,
             'showPressureValue' => $showPressureValue,
             'showPressureResult' => $showPressureResult,
+            'models' => $models,
+            'pages' => $pages,
+            'sort' => $sort
         ]);
     }
 

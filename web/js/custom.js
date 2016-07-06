@@ -4,7 +4,12 @@ $(document).ready(function(){
 
     $(".progress .progress-bar").each(function(){
 
-        if ($(this).attr("aria-valuenow") <= 25)
+        if ($(this).attr("aria-valuenow") == 0)
+        {
+            $(this).css("color", "red");
+        }
+
+        else if ($(this).attr("aria-valuenow") <= 25)
         {
             $(this).addClass("progress-bar-danger");
         }

@@ -6,12 +6,17 @@ use yii\base\Model;
 use yii\db\ActiveRecord;
 
 class dayresult extends ActiveRecord{
-
-
+    
     public static function getAll($userId){
 
-        return self::find()->asArray()->where("user_id = '$userId'")->all();
+        return self::find()->asArray()->where("user_id = '$userId'")->orderBy('date')->all();
         
+    }
+
+    public static function getAllPagination($userId){
+
+        return self::find()->asArray()->where("user_id = '$userId'")->orderBy('date');
+
     }
 
     public static function addRow($date, $result, $userId){
