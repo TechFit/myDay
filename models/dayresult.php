@@ -6,7 +6,7 @@ use yii\base\Model;
 use yii\db\ActiveRecord;
 
 class dayresult extends ActiveRecord{
-    
+
     public static function getAll($userId){
 
         return self::find()->asArray()->where("user_id = '$userId'")->orderBy('date')->all();
@@ -19,11 +19,13 @@ class dayresult extends ActiveRecord{
 
     }
 
-    public static function addRow($date, $result, $userId){
+    public static function addRow($date, $result, $listResult, $userId){
         $query = new dayresult();
         $query->date = $date;
         $query->result = $result;
+        $query->listResult = $listResult;
         $query->user_id = $userId;
+
         $query->save();
     }
         

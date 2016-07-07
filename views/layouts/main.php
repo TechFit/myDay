@@ -76,6 +76,16 @@ AppAsset::register($this);
 </footer>
 
 <?php $this->endBody() ?>
+<?php
+$js = <<< 'SCRIPT'
+/* To initialize BS3 tooltips set this below */
+$(function () { 
+    $("[data-toggle='tooltip']").tooltip({html:true}); 
+});;
+SCRIPT;
+// Register tooltip/popover initialization javascript
+$this->registerJs($js);
+?>
 </body>
 </html>
 <?php $this->endPage() ?>

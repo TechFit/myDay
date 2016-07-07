@@ -4,8 +4,6 @@ namespace app\controllers;
 
 use app\models\brain;
 use app\models\pressureForm;
-use app\models\User;
-use simplehtmldom_1_5\simple_html_dom;
 use Yii;
 use yii\data\Pagination;
 use yii\data\Sort;
@@ -110,7 +108,9 @@ class SiteController extends Controller
 
             $date = $model->date;
 
-            dayresult::addRow($date, $result, $userId);
+            $listResult[] = $model->check;
+
+            dayresult::addRow($date, $result, serialize($listResult), $userId);
         }
             $getDayResult = dayresult::getAll($userId);
             $allNameEx = exercise::getAllExercises($userId);
@@ -134,14 +134,25 @@ class SiteController extends Controller
                 {
                     $getDayResultDate[] = $item['date'];
                     $getDayResultCount[] = (int)($item['result']  * 100 / count($allNameEx));
+                    $getDayResultList[] = $item['listResult'];
                 }
             }
 
             else
             {
-
+                $sort = new Sort([
+                    'attributes' => [
+                        'date'
+                    ],
+                ]);
+                $query = dayresult::getAllPagination($userId);
+                $pages = new Pagination(['totalCount' => $query->count(),  'pageSize' => 0]);
+                $models = $query->offset($pages->offset)
+                    ->limit($pages->limit)->orderBy($sort->orders)
+                    ->all();
                 $getDayResultDate[] = date('Y-m-d');
                 $getDayResultCount[] = 0;
+                $getDayResultList[] = 'Потрачено';
             }
 
             return $this->render('index',
@@ -149,6 +160,7 @@ class SiteController extends Controller
                     'getDayResult' => $getDayResult,
                     'getDayResultDate' => $getDayResultDate,
                     'getDayResultCount' => $getDayResultCount,
+                    'getDayResultList' => $getDayResultList,
                     'model' => $model,
                     'allNameEx' => $allNameEx,
                     'pages' => $pages,

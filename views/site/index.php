@@ -34,13 +34,30 @@ $this->title = 'MyDay';
             </tr>
             </thead>
             <?php foreach ($models as $item) { ?>
-                <tr>
+                <tr data-toggle="tooltip" data-placement="top" title="
+                <?php
+                foreach (unserialize($item['listResult']) as $listResultArray)
+                {
+                    if  (gettype($listResultArray) == 'array')
+                    {
+                        foreach ($listResultArray as $singleResult)
+                        {
+                            print $singleResult . '<br>';
+                        }
+                    }
+                    else
+                    {
+                        echo 'Потрачено';
+                    }
+                }
+                ?>
+                ">
                     <td>
                         <?php echo $item['date'] ?>
                     </td>
                     <td>
                         <div class="progress">
-                            <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<?php echo (int)($item['result'] * 100 / count($allNameEx)); ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $item['result'] * 100 / count($allNameEx); ?>%">
+                            <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<?php echo (int)($item['result'] * 100 / count($allNameEx)); ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $item['result'] * 100 / count($allNameEx); ?>%" >
                                 <?php echo (int)($item['result'] * 100 / count($allNameEx)); ?>%
                             </div>
                         </div>

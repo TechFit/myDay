@@ -16,7 +16,6 @@ class form extends Model
       $userId = Yii::$app->user->id;
 
       $allNameEx = exercise::getAllExercises($userId);
-
         return ArrayHelper::map($allNameEx, 'name', 'name');
         
     }
