@@ -6,7 +6,6 @@ use app\models\brain;
 use app\models\pressureForm;
 use Yii;
 use yii\data\Pagination;
-use yii\data\Sort;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use app\models\addform;
@@ -16,7 +15,6 @@ use app\models\Login;
 use app\models\form;
 use app\models\dayresult;
 use app\models\exercise;
-use yii\helpers\Html;
 
 class SiteController extends Controller
 {
@@ -98,75 +96,37 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        $userId = Yii::$app->user->id;
+        
         $model = new form();
 
-        $userId = Yii::$app->user->id;
+        // Form with tasks on main page
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
-            $model->check == 0 ? $result = 0 : $result = count($model->check);
+            $model->saveDayResult();
 
-            $date = $model->date;
-
-            $listResult[] = $model->check;
-
-            dayresult::addRow($date, $result, serialize($listResult), $userId);
         }
+                
             $getDayResult = dayresult::getAll($userId);
+
             $allNameEx = exercise::getAllExercises($userId);
+
             $countName = exercise::getCountName($userId);
 
-            // for highcharts
 
-            if  (!empty($getDayResult))
-            {
-                $sort = new Sort([
-                    'attributes' => [
-                        'date'
-                    ],
-                ]);
-                $query = dayresult::getAllPagination($userId);
-                $pages = new Pagination(['totalCount' => $query->count(),  'pageSize' => 4]);
-                $models = $query->offset($pages->offset)
-                    ->limit($pages->limit)->orderBy($sort->orders)
-                    ->all();
-                foreach ($getDayResult as $item)
-                {
-                    $getDayResultDate[] = $item['date'];
-                    $getDayResultCount[] = (int)($item['result']  * 100 / count($allNameEx));
-                    $getDayResultList[] = $item['listResult'];
-                }
-            }
+        // for highcharts
 
-            else
-            {
-                $sort = new Sort([
-                    'attributes' => [
-                        'date'
-                    ],
-                ]);
-                $query = dayresult::getAllPagination($userId);
-                $pages = new Pagination(['totalCount' => $query->count(),  'pageSize' => 0]);
-                $models = $query->offset($pages->offset)
-                    ->limit($pages->limit)->orderBy($sort->orders)
-                    ->all();
-                $getDayResultDate[] = date('Y-m-d');
-                $getDayResultCount[] = 0;
-                $getDayResultList[] = 'Потрачено';
-            }
+        if  (!empty($getDayResult))
+        {
+            $shedule = dayresult::getDataShedule($getDayResult);
+        }
 
             return $this->render('index',
                 [
-                    'getDayResult' => $getDayResult,
-                    'getDayResultDate' => $getDayResultDate,
-                    'getDayResultCount' => $getDayResultCount,
-                    'getDayResultList' => $getDayResultList,
-                    'model' => $model,
                     'allNameEx' => $allNameEx,
-                    'pages' => $pages,
-                    'models' => $models,
-                    'sort' => $sort,
                     'countName' => $countName,
+                    'shedule' => $shedule
                 ]);
         }
 
@@ -183,9 +143,8 @@ class SiteController extends Controller
         if ($addform->load(Yii::$app->request->post())) {
 
             $nameEx = $addform->nameEx;
-            $userId = Yii::$app->user->id;
 
-            exercise::addExercise($nameEx, $userId);
+            exercise::addExercise($nameEx, Yii::$app->getUser()->id);
         }
 
         $updateForm = new updateForm();
@@ -193,15 +152,13 @@ class SiteController extends Controller
         if ($updateForm->load(Yii::$app->request->post()))
         {
             $updateEx = $updateForm->updateEx;
+            
             $idEx = $updateForm->idEx;
-            $userId = Yii::$app->user->id;
-
-            exercise::updateExercise($updateEx, $idEx,$userId);
+            
+            exercise::updateExercise($updateEx, $idEx,Yii::$app->getUser()->id);
         }
 
-        $userId = Yii::$app->user->id;
-
-        $allNameEx = exercise::getAllExercises($userId);
+        $allNameEx = exercise::getAllExercises(Yii::$app->getUser()->id);
 
         return $this->render('add',[
             'addform' => $addform,

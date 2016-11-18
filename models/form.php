@@ -10,15 +10,8 @@ class form extends Model
 {
 
     public $date;
-    public $check;
-    public static function checkFormData()
-    {
-      $userId = Yii::$app->user->id;
 
-      $allNameEx = exercise::getAllExercises($userId);
-        return ArrayHelper::map($allNameEx, 'name', 'name');
-        
-    }
+    public $check;
 
     public function rules()
     {
@@ -26,5 +19,26 @@ class form extends Model
             [['date'], 'required'],
             ['check', 'default', 'value' => 0]
         ];
+    }
+
+    public function checkFormData(){
+
+      $allNameEx = exercise::getAllExercises(Yii::$app->user->id);
+
+      return ArrayHelper::map($allNameEx, 'name', 'name');
+        
+    }
+
+    public function saveDayResult(){
+
+        // Form with tasks on main page
+
+        $this->check == 0 ? $result = 0 : $result = count($this->check);
+
+        $date = $this->date;
+
+        $listResult[] = $this->check;
+
+        dayresult::addRow($date, $result, serialize($listResult), Yii::$app->user->id);
     }
 }

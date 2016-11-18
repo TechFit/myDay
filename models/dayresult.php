@@ -2,7 +2,7 @@
 namespace app\models;
 
 use Yii;
-use yii\base\Model;
+use yii\data\Sort;
 use yii\db\ActiveRecord;
 
 class dayresult extends ActiveRecord{
@@ -34,5 +34,39 @@ class dayresult extends ActiveRecord{
         $delete = dayresult::findOne($id);
         $delete->delete();
     }
+
+    public static function getDataShedule($dayResult){
+
+            $sort = new Sort([
+                'attributes' => [
+                    'date'
+                ],
+            ]);
+
+            $query = dayresult::getAllPagination(Yii::$app->getUser()->id);
+
+            $pages = new Pagination(['totalCount' => $query->count(),  'pageSize' => 4]);
+
+            $models = $query->offset($pages->offset)
+                ->limit($pages->limit)->orderBy($sort->orders)
+                ->all();
+
+            foreach ($dayResult as $item)
+            {
+                $getDayResultDate[] = $item['date'];
+                $getDayResultCount[] = (int)($item['result']  * 100 / count($allNameEx));
+                $getDayResultList[] = $item['listResult'];
+            }
+
+            return [
+                'sort' => $sort,
+                'pages' => $pages,
+                'models' => $models,
+                'getDayResultDate' => $getDayResultDate,
+                'getDayResultCount' => $getDayResultCount,
+                'getDayResultList' => $getDayResultList
+            ];
+
+        }
 
 }
